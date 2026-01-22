@@ -1,0 +1,118 @@
+services:
+  # Infrastructure
+  mongodb:
+    image: mongo:latest
+    container_name: shared-mongodb
+    ports:
+      - "27018:27017"  # изменил на 27018
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - shared-network
+    restart: unless-stopped
+    command: ["--replSet", "rs0", "--bind_ip_all"]
+    healthcheck:
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'shared-mongodb:27017'}]}) }" | mongosh --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      start_interval: 1s
+      retries: 30
+
+  redis:
+    image: redis:alpine
+    container_name: shared-redis
+    ports:
+      - "6380:6379"  # изменил на 6380
+    networks:
+      - shared-network
+    restart: unless-stopped
+
+  # Backend Server
+  server:
+    build: ./server
+    container_name: server-app
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - MONGO_URI=mongodb://shared-mongodb:27017/viral_video  # внутренний порт остался 27017
+      - REDIS_HOST=shared-redis
+      - REDIS_PORT=6379  # внутренний порт остался 6379
+    networks:
+      - shared-network
+    depends_on:
+      - mongodb
+      - redis
+    restart: unless-stopped
+
+  # UI
+  ui:
+    build:
+      context: ./ui
+      args:
+        VITE_API_URL: http://localhost:8000
+    container_name: ui-app
+    ports:
+      - "3003:80"  # изменил на 3003 (3000 занят)
+    networks:
+      - shared-network
+    depends_on:
+      - server
+    restart: unless-stopped
+
+  # Scraper
+  scraper:
+    build: ./scraper
+    container_name: scraper-worker
+    env_file:
+      - ./scraper/.env
+    networks:
+      - shared-network
+    depends_on:
+      - mongodb
+      - redis
+    restart: unless-stopped
+
+  # Parser
+  parser:
+    build: ./parser
+    container_name: parser-app
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://shared-mongodb:27017/viral_video  # внутренний порт остался 27017
+      - REDIS_HOST=shared-redis
+      - REDIS_PORT=6379  # внутренний порт остался 6379
+      - PORT=8080
+    volumes:
+      - ./parser/tmp:/app/tmp
+    networks:
+      - shared-network
+    depends_on:
+      - mongodb
+      - redis
+    restart: unless-stopped
+
+  # AI Service
+  ai:
+    build: ./ai
+    container_name: ai-app
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./ai/.env
+    networks:
+      - shared-network
+    depends_on:
+      - mongodb
+      - redis
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
+
+networks:
+  shared-network:
+    name: shared-network
