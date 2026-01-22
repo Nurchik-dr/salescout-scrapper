@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    ports:
+      - "${PORT:-8000}:${PORT:-8000}"
+    environment:
+      - PORT=${PORT:-8000}
+      - MONGO_URI=${MONGO_URI}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - AI_SERVER_URL=${AI_SERVER_URL}
+      - PARSER_SERVER_URL=${PARSER_SERVER_URL}
+    networks:
+      - shared-network
+    restart: unless-stopped
+
+networks:
+  shared-network:
+    external: true

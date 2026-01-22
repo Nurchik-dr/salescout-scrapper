@@ -1,0 +1,13 @@
+services:
+  scraper:
+    build: .
+    container_name: scraper-worker
+    restart: unless-stopped
+    networks:
+      - shared-network
+    env_file:
+      - .env
+
+networks:
+  shared-network:
+    external: true

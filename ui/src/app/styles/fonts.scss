@@ -1,0 +1,50 @@
+* {
+    font-family: 'system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji', sans-serif;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url(/src/shared/assets/fonts/Inter-Regular.otf);
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url(/src/shared/assets/fonts/Inter-Medium.otf);
+    font-weight: 500;   
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url(/src/shared/assets/fonts/Inter-SemiBold.otf);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url(/src/shared/assets/fonts/Inter-Bold.otf);
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url(/src/shared/assets/fonts/Inter-ExtraBold.otf);
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url(/src/shared/assets/fonts/Inter-Black.otf);
+    font-weight: 900;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url(/src/shared/assets/fonts/Inter-Italic.otf);
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url(/src/shared/assets/fonts/Roboto-Regular.ttf);
+    font-weight: 400;
+}
