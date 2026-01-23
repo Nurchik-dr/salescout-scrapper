@@ -61,11 +61,7 @@ const searchWorker = new Worker(
     },
     {
         connection,
-        concurrency: 2, // Обрабатываем до 2 задач параллельно
-        limiter: {
-            max: 5, // Максимум 5 задач
-            duration: 60000 // за 60 секунд (для соблюдения rate limits)
-        }
+        concurrency: 5, // Обрабатываем до 5 задач параллельно
     }
 );
 

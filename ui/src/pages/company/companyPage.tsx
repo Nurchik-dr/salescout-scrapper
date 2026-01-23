@@ -1,6 +1,5 @@
 import React from 'react';
 import CompanyDesk from '../../widgets/company/companyDesk';
-import { TestWebSocket } from '../../shared/ui/TestWebSocket';
 
 const CompanyPage = () => {
   return (
@@ -11,7 +10,6 @@ const CompanyPage = () => {
         margin: '0 auto',
       }}
     >
-      {/*<TestWebSocket />*/}
       <CompanyDesk />
     </div>
   );

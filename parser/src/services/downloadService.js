@@ -63,18 +63,20 @@ class DownloadService {
             const download = await this.download(url);
             videoPath = download.path;
 
+            // Вычисляем пути для очистки сразу после скачивания
+            // чтобы cleanup работал даже при ошибке в extractFrames
+            const videoName = path.parse(videoPath).name;
+            framesDir = path.resolve('tmp/frames', videoName);
+            audioPath = path.resolve('tmp/audio', `${videoName}.mp3`);
+
             console.log('[ProcessVideo] Download complete, starting analysis...');
 
             // Анализируем
             const analysis = await this.extractFrames(videoPath);
 
-            // Сохраняем пути для очистки
-            framesDir = analysis._raw.framesDir;
-            audioPath = analysis._raw.audioPath;
-
             console.log('[ProcessVideo] Analysis complete, cleaning up...');
 
-            // Удаляем временные файлы
+            // Удаляем временные файлы (видео, кадры и аудио)
             await this.cleanup(videoPath, framesDir, audioPath);
 
             console.log('[ProcessVideo] Cleanup complete!');
@@ -105,6 +107,9 @@ class DownloadService {
      * Очистка всех временных файлов
      */
     async cleanup(videoPath, framesDir, audioPath) {
+        console.log("videoPath", videoPath)
+        console.log("framesDir", framesDir)
+        console.log("audioPath", audioPath)
         const errors = [];
 
         // Удаляем видео файл

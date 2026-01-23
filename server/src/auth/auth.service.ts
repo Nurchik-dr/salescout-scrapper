@@ -25,12 +25,12 @@ export class AuthService {
   async login(phoneNumber: string, password: string) {
     const user = await this.userModel.findOne({ phoneNumber });
     if (!user) {
-      throw new BadRequestException('User not found');
+      throw new BadRequestException('Пользователь не найден');
     }
 
     const passwordMatch = await bcrypt.compare(password, user.passwordHash);
     if (!passwordMatch) {
-      throw new BadRequestException('Invalid password');
+      throw new BadRequestException('Неправильный пароль');
     }
 
     const payload = {

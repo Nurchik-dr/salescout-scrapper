@@ -26,6 +26,7 @@ import {
   analysisFailed,
 } from '../../widgets/repeat/repeat';
 import { useParams } from 'react-router-dom';
+import NotFoundPage from '../notFound/notFoundPage';
 import Loading from '../../shared/ui/loading/loading';
 import { useWebSocket } from '../../shared/hooks/useWebSocket';
 
@@ -185,7 +186,12 @@ const MainPage = () => {
     return <Loading />;
   }
 
-  if (!currentCompany || currentCompany.hotWords.length === 0) {
+  // Если компания не найдена - показываем 404
+  if (!currentCompany) {
+    return <NotFoundPage />;
+  }
+
+  if (currentCompany.hotWords.length === 0) {
     return <EmptyWord />;
   }
 

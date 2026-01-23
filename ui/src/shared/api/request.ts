@@ -16,9 +16,11 @@ export const getRequest = async (url: string, options: object = {}) => {
       },
       ...options,
     });
-  } catch (err) {
-    localStorage.removeItem('access_token');
-    window.location.reload();
+  } catch (err: any) {
+    if (err?.response?.status === 403) {
+      localStorage.removeItem('access_token');
+      window.location.reload();
+    }
     throw err;
   }
 };

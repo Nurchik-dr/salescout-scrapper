@@ -3,8 +3,6 @@ dotenv.config();
 import mongoose from 'mongoose';
 import { Worker } from 'bullmq';
 import IORedis from 'ioredis';
-import express from 'express';
-import router from './routes/route.js';
 import {AnalysisTasksModel} from "./repositories/analyze-tasks.schema.js";
 import downloadService from "./services/downloadService.js";
 import {aiAnalysisQueue} from "./config/redis.js";
@@ -85,11 +83,7 @@ const analysisWorker = new Worker(
     },
     {
         connection,
-        concurrency: 2, // Обрабатываем до 2 задач параллельно
-        limiter: {
-            max: 5, // Максимум 5 задач
-            duration: 60000 // за 60 секунд (для соблюдения rate limits)
-        }
+        concurrency: 5
     }
 );
 

@@ -9,10 +9,11 @@ import VerificationPage from '../../pages/authorization/verification/verificatio
 import SetPasswordPage from '../../pages/authorization/setPassword/setPasswordPage';
 import Loading from '../../shared/ui/loading/loading';
 import CompanyPage from '../../pages/company/companyPage';
+import NotFoundPage from '../../pages/notFound/notFoundPage';
 
 export const Router = () => {
   const location = useLocation();
-  const noHeaderPaths = ['/login', '/registration', '/verification', '/set-password'];
+  const noHeaderPaths = ['/login', '/registration', '/verification', '/set-password', '/404'];
   const { loading } = useSelector((state: RootState) => state.user);
 
   const shouldDisplayHeader = !noHeaderPaths.includes(location.pathname);
@@ -47,6 +48,8 @@ export const Router = () => {
             </PrivateRoute>
           }
         />
+
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );

@@ -61,7 +61,7 @@ export class AnalysisTasksService {
         isProcessing,
         analysis: analysisPayload,
         message: isProcessing
-          ? 'Анализ уже выполняется. Следите за статусом через WebSocket событие analysis:update'
+          ? 'Анализ уже выполняется'
           : existingTask.status === 'completed'
             ? 'Анализ завершен'
             : 'Анализ завершился с ошибкой',
@@ -87,7 +87,7 @@ export class AnalysisTasksService {
     return {
       ...createdTask.toObject(),
       isProcessing: true,
-      message: 'Анализ запущен. Следите за статусом через WebSocket событие analysis:update',
+      message: 'Анализ запущен',
     };
   }
 }
