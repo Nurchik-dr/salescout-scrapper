@@ -68,7 +68,8 @@ const CompanyDesk = () => {
 
   const handleSubmit = async (values: IValues) => {
     setLoading(true);
-    const hotWords = values.hotWord.split(',').map((item) => item.trim());
+    const hotWords = values.hotWord.split(',').map((item) => item.replace(/\s+/g, ''));
+
     try {
       const dto = {
         title: values.title,
