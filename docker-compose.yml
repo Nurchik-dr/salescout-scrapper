@@ -50,7 +50,7 @@ services:
     build:
       context: ./ui
       args:
-        VITE_API_URL: http://localhost:8000
+        VITE_API_URL: http://94.131.87.203:8000
     container_name: ui-app
     ports:
       - "3003:80"  # изменил на 3003 (3000 занят)
