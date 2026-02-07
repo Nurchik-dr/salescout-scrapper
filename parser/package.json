@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon --watch src --ext ts --exec \"ts-node src/runParser.ts\""
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,8 @@
     "wavefile": "^11.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }
